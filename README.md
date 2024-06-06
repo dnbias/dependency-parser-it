@@ -1,6 +1,5 @@
 
-# Table of Contents
-
+# README
 
 
 -   ISDT: <https://github.com/UniversalDependencies/UD_Italian-ISDT>
