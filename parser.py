@@ -311,7 +311,7 @@ class Perceptron(object):
             self.weights[feat] = new_feat_weights
 
     def save(self, path):
-        print "Saving model to %s" % path
+        print("Saving model to %s" % path)
         pickle.dump(self.weights, open(path, 'w'))
 
     def load(self, path):
@@ -446,10 +446,10 @@ def train(parser, sentences, nr_iter):
             if itn < 5:
                 parser.tagger.train_one(words, gold_tags)
             total += len(words)
-        print itn, '%.3f' % (float(corr) / float(total))
+        print(itn, '%.3f' % (float(corr) / float(total)))
         if itn == 4:
             parser.tagger.model.average_weights()
-    print 'Averaging weights'
+    print('Averaging weights')
     parser.model.average_weights()
 
 def read_pos(loc):
@@ -474,7 +474,7 @@ def read_conll(loc):
         lines = [line.split() for line in sent_str.split('\n')]
         words = DefaultList(''); tags = DefaultList('')
         heads = [None]; labels = [None]
-        for i, (word, pos, head, label) in enumerate(lines):
+        for i, (_, word, _, pos, _, head, label, _, _) in enumerate(lines):
             words.append(intern(word))
             #words.append(intern(normalize(word)))
             tags.append(intern(pos))
@@ -511,8 +511,8 @@ def main(model_dir, train_loc, heldout_in, heldout_gold):
                 c += 1
             t += 1
     t2 = time.time()
-    print 'Parsing took %0.3f ms' % ((t2-t1)*1000.0)
-    print c, t, float(c)/t
+    print('Parsing took %0.3f ms' % ((t2-t1)*1000.0))
+    print(c, t, float(c)/t)
 
 
 if __name__ == '__main__':

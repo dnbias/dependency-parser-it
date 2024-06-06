@@ -1,0 +1,13 @@
+#!/bin/bash
+
+## _ _ word _ pos _ _ _ _ _
+name="heldout.pos"
+while read -a array; do
+    # for key in "${!array[@]}"
+    # do
+    #     echo "${array[$key]}"
+    # done
+    if [ "${array[0]}" != "#" ]; then
+        echo "${array[2]} ${array[4]}" >> $name
+    fi
+done <$1

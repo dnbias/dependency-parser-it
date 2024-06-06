@@ -1,0 +1,8 @@
+#!/bin/bash
+for f in $1&/*.mrg; do
+    echo $f
+    grep -v CODE $f > "$f.2"
+    out="$f.dep"
+    java -mx800m -cp "$scriptdir/*:" edu.stanford.nlp.trees.EnglishGrammaticalStructure \
+-treeFile "$f.2" -basic -makeCopulaHead -conllx > $out
+done
