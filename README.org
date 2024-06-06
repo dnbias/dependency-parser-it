@@ -14,7 +14,7 @@ Run with:
 python parser.py model_dir wsj_train.dep wsj_train.pos wsj_test.dep
 #+end_src
 
-Obtain ~wsj_train.dep~[fn::https://explosion.ai/blog/parsing-english-in-python]:
+Obtain ~wsj_train.dep~[fn:: https://explosion.ai/blog/parsing-english-in-python]:
 #+begin_src bash
 for f in $1/*.mrg; do
     echo $f
@@ -25,7 +25,7 @@ for f in $1/*.mrg; do
 done
 #+end_src
 
-Convert to ~conll-x~ format[fn::https://github.com/UniversalDependencies/tools]:
+Convert to ~conll-x~ format[fn:: https://github.com/UniversalDependencies/tools]:
 #+begin_src bash
 perl conllu_to_conllx.pl < file.conllu > file.conll
 #+end_src
