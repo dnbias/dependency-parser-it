@@ -4,8 +4,6 @@
 #+title: README
 #+filetags: :python:ai:project:university:
 #+date: [2024-06-06 Thu 19:59]
-- Related: [[id:1279b590-79e1-4c28-b046-29fd8f556f39][Parsing English in 500 Lines of Python]], [[id:2f40aa67-3b3b-4cce-99bf-65b21ab34165][NLP]], [[id:c35c6f86-c674-4e55-a354-4bcd6be12e41][TLN]]
-- Repo: https://github.com/dnbias/dependency-parser-it
 - ISDT: https://github.com/UniversalDependencies/UD_Italian-ISDT
   + used commit =5bb0bf3=
 
@@ -31,4 +29,4 @@ perl conllu_to_conllx.pl < file.conllu > file.conll
 #+end_src
 
 [fn:1] https://explosion.ai/blog/parsing-english-in-python
-[2] https://github.com/UniversalDependencies/tools
+[fn:2] https://github.com/UniversalDependencies/tools
