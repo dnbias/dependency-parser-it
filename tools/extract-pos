@@ -1,6 +1,8 @@
 #!/bin/bash
 
 ## _ _ word _ pos _ _ _ _ _
+## use like:
+## ../tools/extract-pos it_isdt-ud-test.conllu
 name="heldout.pos"
 while read -a array; do
     # for key in "${!array[@]}"

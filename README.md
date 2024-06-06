@@ -1,5 +1,6 @@
 
-# README
+# Table of Contents
+
 
 
 -   ISDT: <https://github.com/UniversalDependencies/UD_Italian-ISDT>
@@ -22,6 +23,10 @@ Obtain `wsj_train.dep` <sup><a id="fnr.1" class="footref" href="#fn.1" role="doc
 Convert to `conll-x` format<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup>:
 
     perl conllu_to_conllx.pl < file.conllu > file.conll
+
+Extract word/tag tuples:
+
+    ../tools/extract-pos it_isdt-ud-test.conllu
 
 
 # Footnotes

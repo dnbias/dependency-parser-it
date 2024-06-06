@@ -28,5 +28,10 @@ Convert to ~conll-x~ format[fn:2]:
 perl conllu_to_conllx.pl < file.conllu > file.conll
 #+end_src
 
+Extract word/tag tuples:
+#+begin_src bash
+../tools/extract-pos it_isdt-ud-test.conllu
+#+end_src
+
 [fn:1] https://explosion.ai/blog/parsing-english-in-python
 [fn:2] https://github.com/UniversalDependencies/tools
