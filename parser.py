@@ -6,12 +6,22 @@ from collections import defaultdict
 import random
 import time
 import pickle
+import argparse
 
 SHIFT = 0; RIGHT = 1; LEFT = 2;
 MOVES = (SHIFT, RIGHT, LEFT)
 START = ['-START-', '-START2-']
 END = ['-END-', '-END2-']
 model_dir = 'model'
+
+
+parser = argparse.ArgumentParser(description='A compact dependency parser. Uses .conll for data.')
+parser.add_argument('-t', '--test', nargs=2,
+                    help='Test the parser, args are heldout pos and test data .conll')
+parser.add_argument('--train', nargs=2,
+                    help='Train the parser, args are training data .conll and number of iterations')
+parser.add_argument('-q', '--query',
+                    help='Parse dependency for query')
 
 
 class DefaultList(list):
@@ -496,21 +506,47 @@ def pad_tokens(tokens):
     tokens.append('ROOT')
 
 
-def main(train_loc, heldout_in, heldout_gold):
+def query(sentence):
+    words = DefaultList('')
+    for word in sentence.split():
+        words.append(word)
+    pad_tokens(words)
+    # normalized = normalize(words)
+    words[len(words)-1]='<root>'
+    print(words)
+
+    parser = Parser(load=True)
+    tags, heads = parser.parse(words)
+
+    heads.append('-')
+    heads[0]='-'
+    tags[len(tags)-1]='<root>'
+
+    from tabulate import tabulate
+    zipped = zip(words,tags,heads)
+    print(tabulate(zipped, showindex='always'))
+
+
+def train_parser(train_loc, n_iter):
     if not os.path.exists(model_dir):
         os.mkdir(model_dir)
 
-    input_sents = list(read_pos(heldout_in))
     parser = Parser(load=False)
     sentences = list(read_conll(train_loc))
     t1 = time.time()
-    train(parser, sentences, nr_iter=15)
+    train(parser, sentences, nr_iter=n_iter)
     t2 = time.time()
     print('Training took %0.3f ms' % ((t2-t1)*1000.0))
     parser.save()
+
+def test_parser(heldout_in, heldout_gold):
+    parser = Parser(load=True)
+
+    input_sents = list(read_pos(heldout_in))
+    gold_sents = list(read_conll(heldout_gold))
+
     c = 0
     t = 0
-    gold_sents = list(read_conll(heldout_gold))
     t1 = time.time()
     for (words, tags), (_, _, gold_heads, gold_labels) in zip(input_sents, gold_sents):
         _, heads = parser.parse(words)
@@ -525,4 +561,13 @@ def main(train_loc, heldout_in, heldout_gold):
     print(c,' out of ', t,': %0.4f' % (float(c)/t))
 
 if __name__ == '__main__':
-    main(sys.argv[1], sys.argv[2], sys.argv[3])
+    args = parser.parse_args()
+    if args.query:
+        print("Parsing query:")
+        query(args.query)
+    elif args.train:
+        train_parser(args.train[0], int(args.train[1]))
+    elif args.test:
+        test_parser(args.test[0], args.test[1])
+    else:
+        print("Options: -q to query, -t to test, --train to train")
