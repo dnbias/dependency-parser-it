@@ -1,15 +1,12 @@
 #!/bin/bash
 
-## _ _ word _ pos _ _ _ _ _
+## _ word _ _ pos _ _ _ _ _ _
 ## use like:
 ## ../tools/extract-pos it_isdt-ud-test.conllu
 name="heldout.pos"
+truncate -s 0 $name
 while read -a array; do
-    # for key in "${!array[@]}"
-    # do
-    #     echo "${array[$key]}"
-    # done
     if [ "${array[0]}" != "#" ]; then
-        echo "${array[2]} ${array[4]}" >> $name
+        echo "${array[1]}/${array[3]}" >> $name
     fi
 done <$1

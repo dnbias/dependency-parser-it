@@ -81,7 +81,9 @@ class Parser(object):
             valid_moves = get_valid_moves(i, n, len(stack))
             gold_moves = get_gold_moves(i, n, stack, parse.heads, gold_heads)
             guess = max(valid_moves, key=lambda move: scores[move])
-            assert gold_moves
+            # assert gold_moves
+            if not gold_moves:
+                break
             best = max(gold_moves, key=lambda move: scores[move])
             self.model.update(best, guess, features)
             i = transition(guess, i, stack, parse)
@@ -312,10 +314,10 @@ class Perceptron(object):
 
     def save(self, path):
         print("Saving model to %s" % path)
-        pickle.dump(self.weights, open(path, 'w'))
+        pickle.dump(self.weights, open(path, 'wb'))
 
     def load(self, path):
-        self.weights = pickle.load(open(path))
+        self.weights = pickle.load(open(path, 'b'))
 
 
 class PerceptronTagger(object):
@@ -368,7 +370,7 @@ class PerceptronTagger(object):
         context = START + [self._normalize(w) for w in words] + END
         for i, word in enumerate(words):
             guess = self.tagdict.get(word)
-            if not guess:
+            if not guess and len(word)>0:
                 feats = self._get_features(i, word, context, prev, prev2)
                 guess = self.model.predict(feats)
                 self.model.update(tags[i], guess, feats)
@@ -384,7 +386,7 @@ class PerceptronTagger(object):
             return '!HYPHEN'
         elif word.isdigit() and len(word) == 4:
             return '!YEAR'
-        elif word[0].isdigit():
+        elif len(word) > 0 and word[0].isdigit():
             return '!DIGITS'
         else:
             return word.lower()
@@ -398,6 +400,9 @@ class PerceptronTagger(object):
 
         i += len(START)
         features = defaultdict(int)
+        if (len(word) == 0):
+            return features
+
         # It's useful to have a constant feature, which acts sort of like a prior
         add('bias')
         add('i suffix', word[-3:])
@@ -474,11 +479,12 @@ def read_conll(loc):
         lines = [line.split() for line in sent_str.split('\n')]
         words = DefaultList(''); tags = DefaultList('')
         heads = [None]; labels = [None]
-        for i, (_, word, _, pos, _, head, label, _, _) in enumerate(lines):
-            words.append(intern(word))
+        for i, (_, word, _, pos, _, _, head, label, _, _) in enumerate(lines):
+            words.append(sys.intern(word))
             #words.append(intern(normalize(word)))
-            tags.append(intern(pos))
-            heads.append(int(head) + 1 if head != '-1' else len(lines) + 1)
+            tags.append(sys.intern(pos))
+            # heads.append(int(head) + 1 if head != '-1' else len(lines) + 1)
+            heads.append(int(head) if head != '-1' else len(lines))
             labels.append(label)
         pad_tokens(words); pad_tokens(tags)
         yield words, tags, heads, labels
@@ -496,7 +502,10 @@ def main(model_dir, train_loc, heldout_in, heldout_gold):
     input_sents = list(read_pos(heldout_in))
     parser = Parser(load=False)
     sentences = list(read_conll(train_loc))
+    t1 = time.time()
     train(parser, sentences, nr_iter=15)
+    t2 = time.time()
+    print('Training took %0.3f ms' % ((t2-t1)*1000.0))
     parser.save()
     c = 0
     t = 0
@@ -512,8 +521,7 @@ def main(model_dir, train_loc, heldout_in, heldout_gold):
             t += 1
     t2 = time.time()
     print('Parsing took %0.3f ms' % ((t2-t1)*1000.0))
-    print(c, t, float(c)/t)
-
+    print(c,' out of ', t,': %0.4f' % (float(c)/t))
 
 if __name__ == '__main__':
     main(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4])
