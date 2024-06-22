@@ -6,7 +6,9 @@
 name="heldout.pos"
 truncate -s 0 $name
 while read -a array; do
-    if [ "${array[0]}" != "#" ]; then
-        echo "${array[1]}/${array[3]}" >> $name
+    if [ "${#array[*]}" == 0 ]; then
+        echo "" >> $name
+    elif [ "${#array[*]}" == 10 ] && [ "${array[0]}" != "#" ] && [ "${array[3]}" != "_" ]; then
+        echo -n "${array[2]}/${array[3]} " >> $name
     fi
 done <$1

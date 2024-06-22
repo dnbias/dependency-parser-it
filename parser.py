@@ -11,6 +11,7 @@ SHIFT = 0; RIGHT = 1; LEFT = 2;
 MOVES = (SHIFT, RIGHT, LEFT)
 START = ['-START-', '-START2-']
 END = ['-END-', '-END2-']
+model_dir = 'model'
 
 
 class DefaultList(list):
@@ -51,12 +52,12 @@ class Parser(object):
         model_dir = os.path.dirname(__file__)
         self.model = Perceptron(MOVES)
         if load:
-            self.model.load(path.join(model_dir, 'parser.pickle'))
+            self.model.load(path.join(model_dir, 'model', 'parser.pickle'))
         self.tagger = PerceptronTagger(load=load)
         self.confusion_matrix = defaultdict(lambda: defaultdict(int))
 
     def save(self):
-        self.model.save(path.join(os.path.dirname(__file__), 'parser.pickle'))
+        self.model.save(path.join(model_dir, 'parser.pickle'))
         self.tagger.save()
 
     def parse(self, words):
@@ -317,12 +318,12 @@ class Perceptron(object):
         pickle.dump(self.weights, open(path, 'wb'))
 
     def load(self, path):
-        self.weights = pickle.load(open(path, 'b'))
+        self.weights = pickle.load(open(path, 'rb'))
 
 
 class PerceptronTagger(object):
     '''Greedy Averaged Perceptron tagger'''
-    model_loc = os.path.join(os.path.dirname(__file__), 'tagger.pickle')
+    model_loc = os.path.join(os.path.dirname(__file__),'model' ,'tagger.pickle')
     def __init__(self, classes=None, load=True):
         self.tagdict = {}
         if classes:
@@ -467,7 +468,7 @@ def read_pos(loc):
             if not token:
                 continue
             word, tag = token.rsplit('/', 1)
-            #words.append(normalize(word))
+            # words.append(normalize(word))
             words.append(word)
             tags.append(tag)
         pad_tokens(words); pad_tokens(tags)
@@ -479,12 +480,12 @@ def read_conll(loc):
         lines = [line.split() for line in sent_str.split('\n')]
         words = DefaultList(''); tags = DefaultList('')
         heads = [None]; labels = [None]
-        for i, (_, word, _, pos, _, _, head, label, _, _) in enumerate(lines):
+        for i, (_, _, word, pos, _, _, head, label, _, _) in enumerate(lines):
             words.append(sys.intern(word))
             #words.append(intern(normalize(word)))
             tags.append(sys.intern(pos))
             # heads.append(int(head) + 1 if head != '-1' else len(lines) + 1)
-            heads.append(int(head) if head != '-1' else len(lines))
+            heads.append(int(head) if head != '0' else len(lines) + 1)
             labels.append(label)
         pad_tokens(words); pad_tokens(tags)
         yield words, tags, heads, labels
@@ -495,7 +496,7 @@ def pad_tokens(tokens):
     tokens.append('ROOT')
 
 
-def main(model_dir, train_loc, heldout_in, heldout_gold):
+def main(train_loc, heldout_in, heldout_gold):
     if not os.path.exists(model_dir):
         os.mkdir(model_dir)
 
@@ -514,7 +515,7 @@ def main(model_dir, train_loc, heldout_in, heldout_gold):
     for (words, tags), (_, _, gold_heads, gold_labels) in zip(input_sents, gold_sents):
         _, heads = parser.parse(words)
         for i, w in list(enumerate(words))[1:-1]:
-            if gold_labels[i] in ('P', 'punct'):
+            if gold_labels[i] in ('P', 'punct', 'PUNCT'):
                 continue
             if heads[i] == gold_heads[i]:
                 c += 1
@@ -524,4 +525,4 @@ def main(model_dir, train_loc, heldout_in, heldout_gold):
     print(c,' out of ', t,': %0.4f' % (float(c)/t))
 
 if __name__ == '__main__':
-    main(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4])
+    main(sys.argv[1], sys.argv[2], sys.argv[3])
