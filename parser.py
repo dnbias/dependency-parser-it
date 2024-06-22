@@ -16,11 +16,11 @@ model_dir = 'model'
 
 
 parser = argparse.ArgumentParser(description='A compact dependency parser. Uses .conll for data.')
-parser.add_argument('-t', '--test', nargs=2,
+parser.add_argument('--test', nargs=2, metavar=('heldout','golden'),
                     help='Test the parser, args are heldout pos and test data .conll')
-parser.add_argument('--train', nargs=2,
+parser.add_argument('--train', nargs=2, metavar=('training', 'n_iterations'),
                     help='Train the parser, args are training data .conll and number of iterations')
-parser.add_argument('-q', '--query',
+parser.add_argument('-q', '--query', metavar='sentence',
                     help='Parse dependency for query')
 
 
