@@ -6,9 +6,13 @@
 -   ISDT: <https://github.com/UniversalDependencies/UD_Italian-ISDT>
     -   used commit `5bb0bf3`
 
-Run with:
+In general run with:
 
-    python parser.py model_dir wsj_train.dep wsj_train.pos wsj_test.dep
+    python parser.py wsj_train.dep wsj_train.pos wsj_test.dep
+
+To test run:
+
+    python parser.py data/it_isdt-ud-train.conll data/heldout.pos data/it_isdt-ud-test.conll
 
 Obtain `wsj_train.dep` <sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>:
 
@@ -24,7 +28,7 @@ Convert to `conll-x` format<sup><a id="fnr.2" class="footref" href="#fn.2" role=
 
     perl conllu_to_conllx.pl < file.conllu > file.conll
 
-Extract word/tag tuples:
+Extract word/tag tuples for the test sentences:
 
     ../tools/extract-pos it_isdt-ud-test.conllu
 
