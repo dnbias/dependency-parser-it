@@ -7,7 +7,7 @@
 * Reference
 - ISDT: https://github.com/UniversalDependencies/UD_Italian-ISDT
   + used commit =5bb0bf3=
-
+- https://gist.github.com/syllog1sm/10343947
 * Running
 In general use with:
 #+begin_src bash

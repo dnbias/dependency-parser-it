@@ -1,22 +1,23 @@
 
 # Table of Contents
 
-1.  [Reference](#org458f2b4)
-2.  [Running](#orgf209842)
-3.  [Test](#orgdcaefeb)
-4.  [Getting the data](#org780d117)
+1.  [Reference](#org6922805)
+2.  [Running](#org2d83da5)
+3.  [Test](#orgab9f375)
+4.  [Getting the data](#org9bdb527)
 
 
 
-<a id="org458f2b4"></a>
+<a id="org6922805"></a>
 
 # Reference
 
 -   ISDT: <https://github.com/UniversalDependencies/UD_Italian-ISDT>
     -   used commit `5bb0bf3`
+-   <https://gist.github.com/syllog1sm/10343947>
 
 
-<a id="orgf209842"></a>
+<a id="org2d83da5"></a>
 
 # Running
 
@@ -27,7 +28,7 @@ In general use with:
     python parser.py --query 'test sentence'
 
 
-<a id="orgdcaefeb"></a>
+<a id="orgab9f375"></a>
 
 # Test
 
@@ -39,7 +40,7 @@ To test you can run:
     python parser.py -q 'essere guerra con il nemico " .'
 
 
-<a id="org780d117"></a>
+<a id="org9bdb527"></a>
 
 # Getting the data
 
