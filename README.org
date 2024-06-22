@@ -4,18 +4,28 @@
 #+title: README
 #+filetags: :python:ai:project:university:
 #+date: [2024-06-06 Thu 19:59]
+* Reference
 - ISDT: https://github.com/UniversalDependencies/UD_Italian-ISDT
   + used commit =5bb0bf3=
 
-In general run with:
+* Running
+In general use with:
 #+begin_src bash
-python parser.py wsj_train.dep wsj_train.pos wsj_test.dep
-#+end_src
-To test run:
-#+begin_src bash
-python parser.py data/it_isdt-ud-train.conll data/heldout.pos data/it_isdt-ud-test.conll
+python parser.py --train wsj_train.dep
+python parser.py --test wsj_train.pos wsj_test.dep
+python parser.py --query 'test sentence'
 #+end_src
 
+* Test
+To test you can run:
+#+begin_src bash
+python parser.py -h
+python parser.py --train data/it_isdt-ud-train.conll 15
+python parser.py --test data/heldout.pos data/it_isdt-ud-test.conll
+python parser.py -q 'essere guerra con il nemico " .'
+#+end_src
+
+* Getting the data
 Obtain ~wsj_train.dep~ [fn:1]:
 #+begin_src bash
 for f in $1/*.mrg; do

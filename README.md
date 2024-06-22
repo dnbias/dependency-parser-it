@@ -1,18 +1,47 @@
 
-# Usage
+# Table of Contents
+
+1.  [Reference](#org458f2b4)
+2.  [Running](#orgf209842)
+3.  [Test](#orgdcaefeb)
+4.  [Getting the data](#org780d117)
 
 
+
+<a id="org458f2b4"></a>
+
+# Reference
 
 -   ISDT: <https://github.com/UniversalDependencies/UD_Italian-ISDT>
     -   used commit `5bb0bf3`
 
-In general run with:
 
-    python parser.py wsj_train.dep wsj_train.pos wsj_test.dep
+<a id="orgf209842"></a>
 
-To test run:
+# Running
 
-    python parser.py data/it_isdt-ud-train.conll data/heldout.pos data/it_isdt-ud-test.conll
+In general use with:
+
+    python parser.py --train wsj_train.dep
+    python parser.py --test wsj_train.pos wsj_test.dep
+    python parser.py --query 'test sentence'
+
+
+<a id="orgdcaefeb"></a>
+
+# Test
+
+To test you can run:
+
+    python parser.py -h
+    python parser.py --train data/it_isdt-ud-train.conll 15
+    python parser.py --test data/heldout.pos data/it_isdt-ud-test.conll
+    python parser.py -q 'essere guerra con il nemico " .'
+
+
+<a id="org780d117"></a>
+
+# Getting the data
 
 Obtain `wsj_train.dep` <sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>:
 
