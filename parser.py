@@ -511,7 +511,7 @@ def query(sentence):
     for word in sentence.split():
         words.append(word)
     pad_tokens(words)
-    # normalized = normalize(words)
+    # normalized = stemming(words) TODO
     words[len(words)-1]='<root>'
     print(words)
 

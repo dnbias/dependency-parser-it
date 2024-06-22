@@ -1,14 +1,14 @@
 
 # Table of Contents
 
-1.  [Reference](#org6922805)
-2.  [Running](#org2d83da5)
-3.  [Test](#orgab9f375)
-4.  [Getting the data](#org9bdb527)
+1.  [Reference](#orgd24c2e6)
+2.  [Running](#org4e07a94)
+3.  [Test](#org05a542b)
+4.  [Getting the data](#org2b809cd)
 
 
 
-<a id="org6922805"></a>
+<a id="orgd24c2e6"></a>
 
 # Reference
 
@@ -17,9 +17,25 @@
 -   <https://gist.github.com/syllog1sm/10343947>
 
 
-<a id="org2d83da5"></a>
+<a id="org4e07a94"></a>
 
 # Running
+
+    usage: parser.py [-h] [--test heldout golden] [--train training n_iterations]
+                     [-q sentence]
+    
+    A compact dependency parser. Uses .conll for data.
+    
+    options:
+      -h, --help            show this help message and exit
+      --test heldout golden
+                            Test the parser, args are heldout pos and test data
+                            .conll
+      --train training n_iterations
+                            Train the parser, args are training data .conll and
+                            number of iterations
+      -q sentence, --query sentence
+                            Parse dependency for query
 
 In general use with:
 
@@ -28,7 +44,7 @@ In general use with:
     python parser.py --query 'test sentence'
 
 
-<a id="orgab9f375"></a>
+<a id="org05a542b"></a>
 
 # Test
 
@@ -40,7 +56,7 @@ To test you can run:
     python parser.py -q 'essere guerra con il nemico " .'
 
 
-<a id="org9bdb527"></a>
+<a id="org2b809cd"></a>
 
 # Getting the data
 

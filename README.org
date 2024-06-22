@@ -9,6 +9,24 @@
   + used commit =5bb0bf3=
 - https://gist.github.com/syllog1sm/10343947
 * Running
+#+begin_example
+usage: parser.py [-h] [--test heldout golden] [--train training n_iterations]
+                 [-q sentence]
+
+A compact dependency parser. Uses .conll for data.
+
+options:
+  -h, --help            show this help message and exit
+  --test heldout golden
+                        Test the parser, args are heldout pos and test data
+                        .conll
+  --train training n_iterations
+                        Train the parser, args are training data .conll and
+                        number of iterations
+  -q sentence, --query sentence
+                        Parse dependency for query
+#+end_example
+
 In general use with:
 #+begin_src bash
 python parser.py --train wsj_train.dep
